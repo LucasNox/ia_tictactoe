@@ -134,6 +134,10 @@ class MinMaxTree:
 		if save and path:
 			with open(path, 'wb') as f:
 				pickle.dump(self.root, f)
+		self.origin = self.root
+	
+	def restart(self):
+		self.root = self.origin
 
 	#Torna a raiz da árvore o nó que será movimentado para não perder tempo processando nós
 	#de estados de tabuleiro não mais acessíveis

@@ -127,7 +127,7 @@ def play(tree):
 			op = int(input("Seleção: "))
 			print("\n-----------------------------------------")
 			if(op == 1):
-				tree = MinMaxTree(True, './minmaxtree.bin')
+				tree.restart()
 				done = False
 				order = 4
 			elif(op == 2):
