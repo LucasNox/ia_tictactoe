@@ -32,7 +32,7 @@ class _MinMaxNode:
 				new_node = _MinMaxNode(self.depth+1, new_board, isLeaf)
 				self.children.append(new_node)
 		else:
-			#Caso seja um nó folha, checa se o marcador de impate está ativo, se sim, pontuação é 0
+			#Caso seja um nó folha, checa se o marcador de empate está ativo, se sim, pontuação é 0
 			#senão, calcula a pontuação
 			if draw:
 				self.points = 0
@@ -108,10 +108,10 @@ class _MinMaxNode:
 
 	def printBoard(self):
 		print(' {} | {} | {} \n'.format(self.board[0,0],self.board[0,1],self.board[0,2])
-			 +'-----------\n'
-			 +' {} | {} | {} \n'.format(self.board[1,0],self.board[1,1],self.board[1,2])
-			 +'-----------\n'
-			 +' {} | {} | {} \n'.format(self.board[2,0],self.board[2,1],self.board[2,2]))
+			+'-----------\n'
+			+' {} | {} | {} \n'.format(self.board[1,0],self.board[1,1],self.board[1,2])
+			+'-----------\n'
+			+' {} | {} | {} \n'.format(self.board[2,0],self.board[2,1],self.board[2,2]))
 
 class MinMaxTree:
 	#Cria o objeto de raiz da árvore
@@ -155,10 +155,53 @@ class MinMaxTree:
 		_, position = self.root.searchInTree()
 		return position
 
+	# Retorna matriz que representa o board atual
+	def getBoard(self):
+		return self.root.board
+
+	# Verifica se o board atual representa uma vitória
+	# derrota ou empate.
+	def getBoardState(self):
+		state = self.root.board
+
+		# Verifica linhas
+		for i in range(0, 3):
+			if(state[i,0] != 0 and (state[i,0] == state[i,1] == state[i,2])):
+				return state[i,0], True
+
+		# Verifica colunas
+		for j in range(0, 3):
+			if(state[0,j] != 0 and (state[0,j] == state[1,j] == state[2,j])):
+				return state[0,i], True
+
+		# Verifica diagonais
+		if(state[0,0] != 0 and (state[0,0] == state[1,1] == state[2,2])):
+			return state[0,0], True
+		if(state[0,2] != 0 and (state[0,2] == state[1,1] == state[2,0])):
+			return state[0,2], True			
+
+		# Verifica empate
+		for i in range(0, 3):
+			for j in range(0, 3):
+				if(state[i,j] == 0):
+					return 0, False # Se ainda existe jogada disponível
+
+		# Se não há ganhadores nem jogadas disponíveis,
+		# retorna empate
+		return 0, True
+
+	# Verifica se movimento é válido
+	def isValidMove(self, pos):
+		state = self.root.board
+		if(state[pos[0],pos[1]] != 0):
+			return False
+		else:
+			return True
+
 	def printBoard(self):
 		board = self.root.board
 		print(' {} | {} | {} \n'.format(board[0,0],board[0,1],board[0,2])
-			 +'-----------\n'
-			 +' {} | {} | {} \n'.format(board[1,0],board[1,1],board[1,2])
-			 +'-----------\n'
-			 +' {} | {} | {} \n'.format(board[2,0],board[2,1],board[2,2]))
+			+'-----------\n'
+			+' {} | {} | {} \n'.format(board[1,0],board[1,1],board[1,2])
+			+'-----------\n'
+			+' {} | {} | {} \n'.format(board[2,0],board[2,1],board[2,2]))
