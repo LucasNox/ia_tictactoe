@@ -176,7 +176,7 @@ class MinMaxTree:
 		# Verifica colunas
 		for j in range(0, 3):
 			if(state[0,j] != 0 and (state[0,j] == state[1,j] == state[2,j])):
-				return state[0,i], True
+				return state[0,j], True
 
 		# Verifica diagonais
 		if(state[0,0] != 0 and (state[0,0] == state[1,1] == state[2,2])):
